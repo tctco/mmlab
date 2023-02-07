@@ -10,10 +10,14 @@
 
 ![acc_curve](https://raw.githubusercontent.com/tctco/mmlab/main/classification-mice/imgs/acc_curve.png)
 
-最终在测试集的精度可以达到50%左右，感觉已经算是意外之喜了……
+最终在测试集的精度可以达到59%左右，感觉已经算是意外之喜了……
 
 ## 混淆矩阵
 
 ![confusion_matrix](https://raw.githubusercontent.com/tctco/mmlab/main/classification-mice/imgs/confusion_matrix.png)
 
-mouse2的识别结果似乎尤其差。
+## EigenGardCAM
+
+小鼠的尾部确实做了一点标记。
+
+![cam](https://raw.githubusercontent.com/tctco/mmlab/main/classification-mice/imgs/cam.png)

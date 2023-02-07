@@ -18,51 +18,7 @@ model = dict(
         dict(type='BatchMixup', alpha=0.8, num_classes=4, prob=0.5),
         dict(type='BatchCutMix', alpha=1.0, num_classes=4, prob=0.5)
     ]))
-rand_increasing_policies = [
-    dict(type='AutoContrast'),
-    dict(type='Equalize'),
-    dict(type='Invert'),
-    dict(type='Rotate', magnitude_key='angle', magnitude_range=(0, 180)),
-    dict(type='Posterize', magnitude_key='bits', magnitude_range=(4, 0)),
-    dict(type='Solarize', magnitude_key='thr', magnitude_range=(256, 0)),
-    dict(
-        type='SolarizeAdd',
-        magnitude_key='magnitude',
-        magnitude_range=(0, 110)),
-    dict(
-        type='ColorTransform',
-        magnitude_key='magnitude',
-        magnitude_range=(0, 0.9)),
-    dict(type='Contrast', magnitude_key='magnitude', magnitude_range=(0, 0.9)),
-    dict(
-        type='Brightness', magnitude_key='magnitude',
-        magnitude_range=(0, 0.9)),
-    dict(
-        type='Sharpness', magnitude_key='magnitude', magnitude_range=(0, 0.9)),
-    dict(
-        type='Shear',
-        magnitude_key='magnitude',
-        magnitude_range=(0, 0.3),
-        direction='horizontal'),
-    dict(
-        type='Shear',
-        magnitude_key='magnitude',
-        magnitude_range=(0, 0.3),
-        direction='vertical'),
-    dict(
-        type='Translate',
-        magnitude_key='magnitude',
-        magnitude_range=(0, 0.45),
-        direction='horizontal'),
-    dict(
-        type='Translate',
-        magnitude_key='magnitude',
-        magnitude_range=(0, 0.45),
-        direction='vertical')
-]
-dataset_type = 'ImageNet'
-img_norm_cfg = dict(
-    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
+
 
 data = dict(
     samples_per_gpu=12,
@@ -72,38 +28,16 @@ data = dict(
         data_prefix='data/mouse-cls/train',
         pipeline=[
             dict(type='LoadImageFromFile'),
-            dict(
-                type='RandomResizedCrop',
-                size=224,
-                backend='pillow',
-                interpolation='bicubic'),
+            dict(type='SquarePad', pad_val=(104, 116, 124)),
+            dict(type='Resize', size=(224, -1)),
             dict(type='RandomFlip', flip_prob=0.5, direction='horizontal'),
             dict(
                 type='RandAugment',
                 policies=[
-                    dict(type='AutoContrast'),
-                    dict(type='Equalize'),
-                    dict(type='Invert'),
                     dict(
                         type='Rotate',
                         magnitude_key='angle',
                         magnitude_range=(0, 180)),
-                    dict(
-                        type='Posterize',
-                        magnitude_key='bits',
-                        magnitude_range=(4, 0)),
-                    dict(
-                        type='Solarize',
-                        magnitude_key='thr',
-                        magnitude_range=(256, 0)),
-                    dict(
-                        type='SolarizeAdd',
-                        magnitude_key='magnitude',
-                        magnitude_range=(0, 110)),
-                    dict(
-                        type='ColorTransform',
-                        magnitude_key='magnitude',
-                        magnitude_range=(0, 0.9)),
                     dict(
                         type='Contrast',
                         magnitude_key='magnitude',
@@ -165,12 +99,8 @@ data = dict(
         data_prefix='data/mouse-cls/test',
         pipeline=[
             dict(type='LoadImageFromFile'),
-            dict(
-                type='Resize',
-                size=(256, -1),
-                backend='pillow',
-                interpolation='bicubic'),
-            dict(type='CenterCrop', crop_size=224),
+            dict(type='SquarePad', pad_val=(104, 116, 124)),
+            dict(type='Resize', size=(224, -1)),
             dict(
                 type='Normalize',
                 mean=[123.675, 116.28, 103.53],
@@ -184,12 +114,8 @@ data = dict(
         data_prefix='data/mouse-cls/test',
         pipeline=[
             dict(type='LoadImageFromFile'),
-            dict(
-                type='Resize',
-                size=(256, -1),
-                backend='pillow',
-                interpolation='bicubic'),
-            dict(type='CenterCrop', crop_size=224),
+            dict(type='SquarePad', pad_val=(104, 116, 124)),
+            dict(type='Resize', size=(224, -1)),
             dict(
                 type='Normalize',
                 mean=[123.675, 116.28, 103.53],
@@ -208,7 +134,7 @@ paramwise_cfg = dict(
     }))
 optimizer = dict(
     type='AdamW',
-    lr=0.004/8,
+    lr=0.004/10,
     weight_decay=0.05,
     eps=1e-08,
     betas=(0.9, 0.999),
@@ -233,8 +159,7 @@ checkpoint_config = dict(interval=30)
 log_config = dict(interval=10, hooks=[dict(type='TextLoggerHook'), dict(type='MMClsWandbHook', init_kwargs=dict(project='mice-cls')),])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-load_from = './work_dirs/hornet-tiny_3rdparty_in1k/best_accuracy_top-1_epoch_61.pth'
-# resume_from = './work_dirs/hornet-tiny_3rdparty_in1k/best_accuracy_top-1_epoch_30.pth'
+load_from = './hornet-tiny_3rdparty_in1k.pth'
 resume_from = None
 workflow = [('train', 1)]
 custom_hooks = [dict(type='EMAHook', momentum=4e-05, priority='ABOVE_NORMAL')]

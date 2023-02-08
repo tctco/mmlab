@@ -21,3 +21,9 @@
 小鼠的尾部确实做了一点标记。
 
 ![cam](https://raw.githubusercontent.com/tctco/mmlab/main/classification-mice/imgs/cam.png)
+
+## Benchmark
+
+|Hornet-tiny|Densenet101|MobilenetV2|
+|-|-|-|
+|59|57|68|

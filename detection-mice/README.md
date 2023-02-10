@@ -6,4 +6,4 @@ Mask R-CNN的小鼠检测版，是[SIPEC](https://github.com/SIPEC-Animal-Data-A
 
 |成功|失败|不是很会看的曲线|
 |-|-|-|
-|![1](https://github.com/tctco/mmlab/blob/main/detection-mice/imgs/1_preprocessed_8256_0.9.png?raw=true)|![1](https://github.com/tctco/mmlab/blob/main/classification-mice/imgs/4-5_10787_0.75.png?raw=true)|![1](https://github.com/tctco/mmlab/blob/main/classification-mice/imgs/segm-mouse-allarea.png?raw=true)|
+|![1](https://github.com/tctco/mmlab/blob/main/detection-mice/imgs/1_preprocessed_8256_0.9.png?raw=true)|![1](https://github.com/tctco/mmlab/blob/main/detection-mice/imgs/4-5_10787_0.75.png?raw=true)|![1](https://github.com/tctco/mmlab/blob/main/detection-mice/imgs/segm-mouse-allarea.png?raw=true)|

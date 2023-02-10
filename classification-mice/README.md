@@ -24,6 +24,8 @@
 
 ## Benchmark
 
-|Hornet-tiny|Densenet101|MobilenetV2|
-|-|-|-|
-|59|57|68|
+在后续的测试中发现MobileNetV2表现比较不错。
+
+|Hornet-tiny|Densenet101|MobilenetV2|EfficientnetB0|VAN|
+|:-:|:-:|:-:|:-:|:-:|
+|59|57|**68**|67|54|
